@@ -1,0 +1,87 @@
+{
+  "name": "@neuctra/cms-core",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A powerful, modular CMS core engine for building modern content editors, blogs, notes, and structured content systems with React and Tailwind CSS.",
+  "author": "Your Name <tahaasifaqwe@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/Taha-Asif-313/neuctra-cms-core#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Taha-Asif-313/neuctra-cms-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Taha-Asif-313/neuctra-cms-core/issues"
+  },
+  "keywords": [
+    "cms",
+    "content-management",
+    "editor",
+    "rich-text",
+    "block-editor",
+    "react",
+    "ui",
+    "component-library",
+    "tailwindcss",
+    "vite",
+    "typescript",
+    "neuctra",
+    "headless-cms",
+    "content-core",
+    "blog-editor",
+    "notes-app",
+    "design-system",
+    "modern",
+    "customizable"
+  ],
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "clean": "rm -rf dist",
+    "dev": "vite",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "lucide-react": "^0.536.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "react-icons": "^5.5.0"
+  },
+  "devDependencies": {
+    "@monaco-editor/react": "^4.7.0",
+    "@neuctra/ui": "^0.2.39",
+    "@tailwindcss/postcss": "^4.1.11",
+    "@types/node": "^24.9.1",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.21",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.38.0",
+    "minimatch": "^10.0.3",
+    "postcss": "^8.5.6",
+    "react-syntax-highlighter": "^16.1.1",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.9.2",
+    "vite": "^7.0.6",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  }
+}
