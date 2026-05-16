@@ -134,22 +134,15 @@ const CodeBlockEditor = ({
           <div className="flex items-center justify-center rounded-lg px-2 py-2.5">
             {getLanguageIcon(language)}
           </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-white">Code Editor</h3>
-
-            <p className="text-xs text-white/40">
-              Syntax highlighted code editor
-            </p>
-          </div>
         </div>
 
         {/* RIGHT */}
         <div className="flex items-center gap-3">
           {/* LANGUAGE */}
-          <div className="w-40">
+          <div className="w-32">
             <Select
               value={language}
+              showCheckIcon={false}
               onValueChange={(value) => {
                 const selectedLanguage = Array.isArray(value)
                   ? value[0]
@@ -178,12 +171,10 @@ const CodeBlockEditor = ({
             {copied ? (
               <>
                 <Check size={14} />
-                Copied
               </>
             ) : (
               <>
                 <Copy size={14} />
-                Copy
               </>
             )}
           </button>

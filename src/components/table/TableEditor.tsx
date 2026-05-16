@@ -122,13 +122,6 @@ const TableEditor = ({
           <div className="flex items-center justify-center rounded-lg px-4 py-2.5 bg-cyan-400/5">
             <Table2 size={14} className="text-cyan-400" />
           </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-white">Table Editor</h3>
-            <p className="text-xs text-white/40">
-              {rows.length} rows • {headers.length} columns
-            </p>
-          </div>
         </div>
 
         {/* RIGHT */}
@@ -144,7 +137,6 @@ const TableEditor = ({
       "
           >
             <Rows3 size={14} />
-            Add Row
           </button>
 
           {/* ADD COLUMN */}
@@ -158,7 +150,6 @@ const TableEditor = ({
       "
           >
             <Columns3 size={14} />
-            Add Column
           </button>
 
           {/* DELETE */}
@@ -185,7 +176,7 @@ const TableEditor = ({
                 <th
                   key={index}
                   className="
-                    min-w-5
+                    min-w-40 sm:min-w-[200px]
                     border-b
                     border-r
                     border-white/10
@@ -237,6 +228,7 @@ const TableEditor = ({
                   <td
                     key={cellIndex}
                     className="
+                      min-w-40 sm:min-w-[200px]
                       border-r
                       border-white/10
                       p-3

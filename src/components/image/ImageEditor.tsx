@@ -64,13 +64,6 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
           <div className="flex items-center justify-center rounded-lg px-4 py-2.5 bg-sky-400/5">
             <ImageIcon size={14} className="text-sky-400" />
           </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-white">Image Editor</h3>
-            <p className="text-xs text-white/40">
-              Advanced image customization & live preview
-            </p>
-          </div>
         </div>
 
         {/* RIGHT */}

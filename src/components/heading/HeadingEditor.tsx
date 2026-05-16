@@ -80,13 +80,6 @@ const HeadingEditor = ({
           <div className="flex items-center justify-center rounded-lg px-4 py-2.5 bg-violet-400/5">
             <Heading size={14} className="text-violet-400" />
           </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-white">Heading Editor</h3>
-            <p className="text-xs text-white/40">
-              Create structured headings with hierarchy
-            </p>
-          </div>
         </div>
 
         {/* RIGHT */}

@@ -70,15 +70,6 @@ const RichTextEditor = ({
           <div className="flex items-center justify-center rounded-lg px-4 py-2.5 bg-cyan-400/5">
             <PenSquare size={14} className="text-cyan-400" />
           </div>
-
-          <div>
-            <h3 className="text-sm font-semibold text-white">
-              Rich Text Editor
-            </h3>
-            <p className="text-xs text-white/40">
-              Advanced formatted content editor
-            </p>
-          </div>
         </div>
 
         <div className="flex items-center gap-3">
@@ -141,6 +132,15 @@ const RichTextEditor = ({
     [&_ul]:pl-6
     [&_ol]:pl-6
     [&_li]:ml-2
+
+    /* QUOTE STYLE */
+    [&_blockquote]:border-l-4
+    [&_blockquote]:border-primary/60
+    [&_blockquote]:pl-4
+    [&_blockquote]:italic
+    [&_blockquote]:py-2
+    [&_blockquote]:rounded-r-lg
+    [&_blockquote]:my-2
 
     [&:empty:before]:content-[attr(data-placeholder)]
     [&:empty:before]:text-white/30
