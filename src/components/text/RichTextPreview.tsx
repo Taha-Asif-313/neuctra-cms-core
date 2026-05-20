@@ -17,7 +17,6 @@ const RichTextPreview = ({
   return (
     <div
       className={`
-        px-5 py-2
         prose prose-invert max-w-none
         prose-p:text-white/75
         prose-p:leading-8
