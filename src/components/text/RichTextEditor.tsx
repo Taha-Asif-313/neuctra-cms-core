@@ -13,6 +13,7 @@ import {
   Quote,
   Link,
   LucideIcon,
+  RemoveFormatting,
 } from "lucide-react";
 
 import { useRef, useEffect, useState } from "react";
@@ -53,6 +54,18 @@ const RichTextEditor = ({
     }
   }, []);
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "\\") {
+        e.preventDefault();
+        clearFormat();
+      }
+    };
+
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
   /* EXEC COMMAND */
   const exec = (command: string, value?: string) => {
     document.execCommand(command, false, value);
@@ -64,7 +77,7 @@ const RichTextEditor = ({
   const insertLink = () => {
     const selection = window.getSelection();
     if (selection && selection.rangeCount > 0) {
-      savedSelection.current = selection.getRangeAt(0);
+      savedSelection.current = selection.getRangeAt(0).cloneRange();
     }
 
     setLinkUrl("");
@@ -79,8 +92,16 @@ const RichTextEditor = ({
 
     el.focus();
 
+    // Restore the saved selection so we insert at the right place
     const selection = window.getSelection();
-    if (!selection || selection.rangeCount === 0) return;
+    if (!selection) return;
+
+    if (savedSelection.current) {
+      selection.removeAllRanges();
+      selection.addRange(savedSelection.current);
+    }
+
+    if (selection.rangeCount === 0) return;
 
     const range = selection.getRangeAt(0);
 
@@ -94,7 +115,7 @@ const RichTextEditor = ({
     a.rel = "noopener noreferrer";
 
     // IMPORTANT: force styling class
-    a.className = "text-[#00c214] underline hover:underline";
+    a.className = "text-primary underline hover:underline";
 
     const selectedText = range.toString() || finalUrl;
 
@@ -111,8 +132,59 @@ const RichTextEditor = ({
 
     onChange(el.innerHTML);
 
+    savedSelection.current = null;
     setLinkModal(false);
     setLinkUrl("");
+  };
+
+  const clearFormat = () => {
+    const el = editorRef.current;
+    const selection = window.getSelection();
+
+    if (!el || !selection || selection.rangeCount === 0) return;
+
+    // Walk up from the cursor node to find the nearest block element
+    // that is a direct child of the editor
+    let node: Node | null = selection.getRangeAt(0).startContainer;
+
+    // If it's a text node, start from its parent element
+    if (node.nodeType === Node.TEXT_NODE) {
+      node = node.parentElement;
+    }
+
+    // Walk up until we find a direct child of the editor root
+    while (node && node.parentElement !== el) {
+      node = node.parentElement;
+    }
+
+    // Nothing found inside the editor
+    if (!node || node.parentElement !== el) return;
+
+    const block = node as HTMLElement;
+
+    // Extract plain text, preserving line breaks from <br> elements
+    const extractText = (n: Node): string => {
+      if (n.nodeType === Node.TEXT_NODE) return n.textContent ?? "";
+      if ((n as HTMLElement).tagName === "BR") return "\n";
+      return Array.from(n.childNodes).map(extractText).join("");
+    };
+
+    const plainText = extractText(block);
+
+    // Rebuild as a clean <p> with no inline styles or nested tags
+    const clean = document.createElement("p");
+    clean.textContent = plainText;
+
+    block.replaceWith(clean);
+
+    // Restore cursor to end of the cleaned element
+    const newRange = document.createRange();
+    newRange.selectNodeContents(clean);
+    newRange.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(newRange);
+
+    onChange(el.innerHTML);
   };
 
   /* INPUT */
@@ -174,8 +246,11 @@ const RichTextEditor = ({
 
           <Btn icon={List} onClick={() => exec("insertUnorderedList")} />
           <Btn icon={ListOrdered} onClick={() => exec("insertOrderedList")} />
-
           <Btn icon={Quote} onClick={() => exec("formatBlock", "blockquote")} />
+
+          <div className="mx-1 h-6 w-px bg-white/10" />
+
+          <Btn icon={RemoveFormatting} onClick={clearFormat} />
         </div>
 
         {/* EDITOR */}
@@ -207,7 +282,7 @@ const RichTextEditor = ({
         prose-li:leading-7
         prose-li:pl-2
         prose-li:my-2
-        prose-code:text-cyan-400
+        prose-code:text-primary
         prose-code:bg-white/5
         prose-code:px-1.5
         prose-code:py-0.5
@@ -218,7 +293,7 @@ const RichTextEditor = ({
         prose-pre:rounded-xl
 
         [&_blockquote]:border-l-4
-        [&_blockquote]:border-green-500/60
+        [&_blockquote]:border-primary/60
         [&_blockquote]:pl-6
         [&_blockquote]:italic
         [&_blockquote]:text-white/70
@@ -248,13 +323,18 @@ const RichTextEditor = ({
             <input
               value={linkUrl}
               onChange={(e) => setLinkUrl(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleInsertLink()}
               placeholder="https://example.com"
+              autoFocus
               className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none focus:border-cyan-400/50"
             />
 
             <div className="mt-4 flex items-center justify-end gap-2">
               <button
-                onClick={() => setLinkModal(false)}
+                onClick={() => {
+                  savedSelection.current = null;
+                  setLinkModal(false);
+                }}
                 className="rounded-xl px-3 py-2 text-sm text-white/60 hover:text-white"
               >
                 Cancel

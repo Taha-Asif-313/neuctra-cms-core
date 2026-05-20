@@ -17,6 +17,7 @@ const RichTextPreview = ({
   return (
     <div
       className={`
+        px-5 py-2
         prose prose-invert max-w-none
         prose-p:text-white/75
         prose-p:leading-8
@@ -48,7 +49,7 @@ const RichTextPreview = ({
         prose-pre:rounded-xl
 
         [&_blockquote]:border-l-4
-        [&_blockquote]:border-green-500/60
+        [&_blockquote]:border-primary/60
         [&_blockquote]:pl-6
         [&_blockquote]:italic
         [&_blockquote]:text-white/70
