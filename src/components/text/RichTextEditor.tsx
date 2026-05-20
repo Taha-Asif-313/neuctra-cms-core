@@ -160,6 +160,7 @@ const RichTextEditor = ({
           onInput={handleInput}
           style={{ display: preview ? "none" : "block" }}
           className={`
+        min-h-55 px-5 py-2 outline-none text-white/80 leading-8
         prose prose-invert max-w-none
         prose-p:text-white/75
         prose-p:leading-8
