@@ -38,7 +38,7 @@ const RichTextEditor = ({
   className = "",
 }: RichTextEditorProps) => {
   const editorRef = useRef<HTMLDivElement>(null);
-  const isTypingRef = useRef(false);
+  const savedSelection = useRef<Range | null>(null);
   const [linkModal, setLinkModal] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
   const [preview, setPreview] = useState(false);
@@ -62,6 +62,11 @@ const RichTextEditor = ({
   };
 
   const insertLink = () => {
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount > 0) {
+      savedSelection.current = selection.getRangeAt(0);
+    }
+
     setLinkUrl("");
     setLinkModal(true);
   };
@@ -69,20 +74,31 @@ const RichTextEditor = ({
   const handleInsertLink = () => {
     if (!linkUrl.trim()) return;
 
+    const el = editorRef.current;
+    if (!el) return;
+
+    el.focus();
+
+    const selection = window.getSelection();
+
+    if (selection && savedSelection.current) {
+      selection.removeAllRanges();
+      selection.addRange(savedSelection.current);
+    }
+
     const finalUrl = linkUrl.startsWith("http")
       ? linkUrl
       : `https://${linkUrl}`;
 
-    exec("createLink", finalUrl);
+    document.execCommand("createLink", false, finalUrl);
 
     setTimeout(() => {
-      const el = editorRef.current;
-      if (!el) return;
-
       el.querySelectorAll("a").forEach((a) => {
         a.setAttribute("target", "_blank");
         a.setAttribute("rel", "noopener noreferrer");
       });
+
+      onChange(el.innerHTML);
     }, 0);
 
     setLinkModal(false);
