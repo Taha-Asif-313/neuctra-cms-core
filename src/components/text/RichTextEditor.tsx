@@ -80,26 +80,36 @@ const RichTextEditor = ({
     el.focus();
 
     const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
 
-    if (selection && savedSelection.current) {
-      selection.removeAllRanges();
-      selection.addRange(savedSelection.current);
-    }
+    const range = selection.getRangeAt(0);
 
     const finalUrl = linkUrl.startsWith("http")
       ? linkUrl
       : `https://${linkUrl}`;
 
-    document.execCommand("createLink", false, finalUrl);
+    const a = document.createElement("a");
+    a.href = finalUrl;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
 
-    setTimeout(() => {
-      el.querySelectorAll("a").forEach((a) => {
-        a.setAttribute("target", "_blank");
-        a.setAttribute("rel", "noopener noreferrer");
-      });
+    // IMPORTANT: force styling class
+    a.className = "text-[#00c214] underline hover:underline";
 
-      onChange(el.innerHTML);
-    }, 0);
+    const selectedText = range.toString() || finalUrl;
+
+    a.textContent = selectedText;
+
+    range.deleteContents();
+    range.insertNode(a);
+
+    // move cursor after link
+    range.setStartAfter(a);
+    range.setEndAfter(a);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    onChange(el.innerHTML);
 
     setLinkModal(false);
     setLinkUrl("");
