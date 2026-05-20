@@ -48,11 +48,11 @@ const RichTextPreview = ({
         prose-pre:rounded-xl
 
         [&_blockquote]:border-l-4
-        [&_blockquote]:border-cyan-400/60
+        [&_blockquote]:border-green-500/60
         [&_blockquote]:pl-6
         [&_blockquote]:italic
         [&_blockquote]:text-white/70
-        [&_blockquote]:text-2xl
+        [&_blockquote]:text-xl
         [&_blockquote]:my-6
 
         [&_ul]:space-y-2
