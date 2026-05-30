@@ -58,7 +58,7 @@ export const createBlock = (type: string): Block | null => {
         id: crypto.randomUUID(),
         type: "heading",
         content: "",
-        level: "h1",
+        level: "h2",
       };
 
     case "image":

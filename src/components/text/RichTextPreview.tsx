@@ -49,10 +49,9 @@ const RichTextPreview = ({
 
         [&_blockquote]:border-l-4
         [&_blockquote]:border-primary/60
-        [&_blockquote]:pl-6
+        [&_blockquote]:pl-3
         [&_blockquote]:italic
-        [&_blockquote]:text-white/70
-        [&_blockquote]:text-xl
+        [&_blockquote]:text-white/90
         [&_blockquote]:my-6
 
         [&_ul]:space-y-2

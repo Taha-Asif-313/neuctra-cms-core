@@ -114,14 +114,16 @@ const TableEditor = ({
   };
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-white/10 bg-black/20">
+    <div className="rounded-2xl overflow-hidden border border-zinc-900 bg-zinc-950 backdrop-blur-xl">
       {/* HEADER */}
-      <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+      <div className="flex items-center justify-between border-b border-zinc-300/20 px-5 py-4">
         {/* LEFT */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center rounded-lg px-4 py-2.5 bg-cyan-400/5">
-            <Table2 size={14} className="text-cyan-400" />
+          <div className="flex items-center justify-center rounded-lg px-4 py-2.5 bg-zinc-500/10">
+            <Table2 size={14} className="text-zinc-600" />
           </div>
+
+          <div className="text-sm text-zinc-600 font-medium">Table Editor</div>
         </div>
 
         {/* RIGHT */}
@@ -130,11 +132,12 @@ const TableEditor = ({
           <button
             onClick={addRow}
             className="
-        flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs leading-none
-        bg-white/5 text-white/60
-        hover:bg-white/10 hover:text-white
-        transition-all duration-200
-      "
+          flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs
+          border border-zinc-300/20
+          bg-zinc-500/5 text-zinc-600
+          hover:bg-zinc-500/10 hover:text-zinc-900
+          transition-all duration-200
+        "
           >
             <Rows3 size={14} />
           </button>
@@ -143,11 +146,12 @@ const TableEditor = ({
           <button
             onClick={addColumn}
             className="
-        flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs leading-none
-        bg-white/5 text-white/60
-        hover:bg-white/10 hover:text-white
-        transition-all duration-200
-      "
+          flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs
+          border border-zinc-300/20
+          bg-zinc-500/5 text-zinc-600
+          hover:bg-zinc-500/10 hover:text-zinc-900
+          transition-all duration-200
+        "
           >
             <Columns3 size={14} />
           </button>
@@ -156,17 +160,19 @@ const TableEditor = ({
           <button
             onClick={onDelete}
             className="
-              flex px-4 py-2.5 items-center justify-center rounded-lg
-              bg-red-600/5 text-red-600 transition-all duration-200
-              hover:scale-105 hover:bg-red-500/10
-            "
+          flex px-4 py-2.5 items-center justify-center rounded-lg
+          border border-red-500/20
+          bg-red-500/5 text-red-500
+          hover:bg-red-500/10 hover:scale-105
+          transition-all duration-200
+        "
           >
             <Trash2 size={14} />
           </button>
         </div>
       </div>
 
-      {/* TABLE */}
+      {/* TABLE WRAPPER */}
       <div className="overflow-auto">
         <table className="w-full border-collapse">
           {/* HEADERS */}
@@ -176,43 +182,36 @@ const TableEditor = ({
                 <th
                   key={index}
                   className="
-                    min-w-40 sm:min-w-[200px]
-                    border-b
-                    border-r
-                    border-white/10
-                    bg-white/2
-                    p-3
-                    last:border-r-0
-                  "
+                min-w-44 sm:min-w-[220px]
+                border-b border-r border-zinc-300/20
+                bg-zinc-500/5
+                p-3
+                last:border-r-0
+              "
                 >
                   <div className="flex items-center gap-2">
                     <Input
                       value={header}
                       onChange={(e) => updateHeader(index, e.target.value)}
                       placeholder={`Column ${index + 1}`}
-                      inputClassName="font-medium"
+                      inputClassName="font-medium text-zinc-800"
                     />
 
                     <button
                       type="button"
                       onClick={() => removeColumn(index)}
                       className="
-                        flex
-                        items-center
-                        justify-center
-                        w-10
-                        h-10
-                        rounded-xl
-                        border
-                        border-white/10
-                        bg-white/3
-                        text-white/40
-                        hover:text-red-400
-                        hover:bg-red-500/10
-                        transition-all
-                      "
+                    flex items-center justify-center
+                    w-9 h-9 rounded-lg
+                    border border-zinc-300/20
+                    bg-zinc-500/5
+                    text-zinc-500
+                    hover:text-red-500
+                    hover:bg-red-500/10
+                    transition-all
+                  "
                     >
-                      <Trash2 size={15} />
+                      <Trash2 size={14} />
                     </button>
                   </div>
                 </th>
@@ -223,17 +222,18 @@ const TableEditor = ({
           {/* BODY */}
           <tbody>
             {rows.map((row, rowIndex) => (
-              <tr key={rowIndex} className="border-b border-white/10">
+              <tr
+                key={rowIndex}
+                className="border-b border-zinc-300/20 hover:bg-zinc-500/5 transition"
+              >
                 {row.map((cell, cellIndex) => (
                   <td
                     key={cellIndex}
                     className="
-                      min-w-40 sm:min-w-[200px]
-                      border-r
-                      border-white/10
-                      p-3
-                      last:border-r-0
-                    "
+                  min-w-44 sm:min-w-[220px]
+                  border-r border-zinc-300/20
+                  p-3 last:border-r-0
+                "
                   >
                     <Input
                       value={cell}
@@ -241,32 +241,28 @@ const TableEditor = ({
                         updateCell(rowIndex, cellIndex, e.target.value)
                       }
                       placeholder="Cell value..."
+                      inputClassName="text-zinc-700"
                     />
                   </td>
                 ))}
 
-                {/* ROW DELETE */}
-                <td className="w-17.5 p-3">
+                {/* ROW ACTION */}
+                <td className="w-16 p-3">
                   <button
                     type="button"
                     onClick={() => removeRow(rowIndex)}
                     className="
-                      flex
-                      items-center
-                      justify-center
-                      w-10
-                      h-10
-                      rounded-xl
-                      border
-                      border-white/10
-                      bg-white/3
-                      text-white/40
-                      hover:text-red-400
-                      hover:bg-red-500/10
-                      transition-all
-                    "
+                  flex items-center justify-center
+                  w-9 h-9 rounded-lg
+                  border border-zinc-300/20
+                  bg-zinc-500/5
+                  text-zinc-500
+                  hover:text-red-500
+                  hover:bg-red-500/10
+                  transition-all
+                "
                   >
-                    <Trash2 size={15} />
+                    <Trash2 size={14} />
                   </button>
                 </td>
               </tr>

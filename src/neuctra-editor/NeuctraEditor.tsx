@@ -152,47 +152,58 @@ export const NeuctraEditor = ({
   };
 
   return (
-    <div className={`${className} bg-black text-white py-6 px-4 rounded-lg`}>
+    <div className={`${className} py-6 px-4 rounded-lg`}>
       {/* TOOLBAR */}
       {showToolbar && (
-        <div className="flex flex-wrap gap-3 mb-6">
-          <ToolbarButton
-            icon={Type}
-            label="Text"
-            onClick={() => addBlock("text")}
-          />
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
+          <div className="flex items-center gap-3 px-1">
+            <div className="h-8 w-1 rounded-full bg-stone-500" />
 
-          <ToolbarButton
-            icon={Heading1}
-            label="Heading"
-            onClick={() => addBlock("heading")}
-          />
+            <div>
+              <h3 className="text-sm font-black text-stone-500">
+                Add Content
+              </h3>
+            </div>
+          </div>
 
-          <ToolbarButton
-            icon={Image}
-            label="Image"
-            onClick={() => addBlock("image")}
-          />
+          {/* RIGHT */}
+          <div className="flex flex-wrap items-center gap-3">
+            <ToolbarButton
+              icon={Type}
+              label="Text"
+              onClick={() => addBlock("text")}
+            />
 
-          <ToolbarButton
-            icon={Code2}
-            label="Code"
-            onClick={() => addBlock("code")}
-          />
+            <ToolbarButton
+              icon={Heading1}
+              label="Heading"
+              onClick={() => addBlock("heading")}
+            />
 
-          <ToolbarButton
-            icon={Table}
-            label="Table"
-            onClick={() => addBlock("table")}
-          />
+            <ToolbarButton
+              icon={Image}
+              label="Image"
+              onClick={() => addBlock("image")}
+            />
 
-          {/* SHOW BLOCKS BUTTON */}
+            <ToolbarButton
+              icon={Code2}
+              label="Code"
+              onClick={() => addBlock("code")}
+            />
 
-          <ToolbarButton
-            icon={showBlocksPreview ? EyeOff : Eye}
-            label={showBlocksPreview ? "Hide Blocks" : "Show Blocks"}
-            onClick={() => setShowBlocksPreview((prev) => !prev)}
-          />
+            <ToolbarButton
+              icon={Table}
+              label="Table"
+              onClick={() => addBlock("table")}
+            />
+
+            <ToolbarButton
+              icon={showBlocksPreview ? EyeOff : Eye}
+              label={showBlocksPreview ? "Hide Blocks" : "Show Blocks"}
+              onClick={() => setShowBlocksPreview((prev) => !prev)}
+            />
+          </div>
         </div>
       )}
 
@@ -204,9 +215,8 @@ export const NeuctraEditor = ({
       overflow-hidden
       rounded-3xl
       border
-      border-white/10
-      bg-black/40
-      backdrop-blur-xl
+      border-zinc-900
+      bg-zinc-950
     "
         >
           {/* HEADER */}
@@ -217,7 +227,7 @@ export const NeuctraEditor = ({
         items-center
         justify-between
         border-b
-        border-white/10
+        border-zinc-900
         px-5
         py-4
       "
@@ -241,14 +251,14 @@ export const NeuctraEditor = ({
             flex
             items-center
             gap-2
-            rounded-xl
+            rounded-lg
             border
-            border-white/10
-            bg-white/5
+            border-zinc-800
+            bg-zinc-900
             px-4
             py-2
             text-xs
-            text-white/70
+            text-white
             transition
             hover:bg-white/10
             hover:text-white
@@ -267,10 +277,10 @@ export const NeuctraEditor = ({
             flex
             items-center
             gap-2
-            rounded-xl
+            rounded-lg
             border
-            border-white/10
-            bg-white/5
+            border-zinc-800
+            bg-zinc-900
             px-4
             py-2
             text-xs
@@ -293,8 +303,8 @@ export const NeuctraEditor = ({
               flex
               items-center
               gap-2
-              rounded-xl
-              bg-emerald-500
+              rounded-lg
+              bg-green-600
               px-4
               py-2
               text-xs
@@ -368,7 +378,7 @@ export const NeuctraEditor = ({
           font-mono
           text-sm
           leading-7
-          text-green-400
+          text-white
         "
             >
               {JSON.stringify(blocks, null, 2)}
@@ -402,7 +412,7 @@ export const NeuctraEditor = ({
 
       {/* BLOCKS */}
       {!showBlocksPreview && (
-        <div className="space-y-6">
+        <div className="space-y-4">
           {blocks.map((block, index) => (
             <div
               key={block.id}
@@ -511,17 +521,18 @@ const ToolbarButton = ({ icon: Icon, label, onClick }: ToolbarButtonProps) => {
         gap-2
         px-4
         py-2
-        rounded-xl
+        rounded-lg
         border
-        border-white/10
-        bg-white/3
-        hover:bg-white/6
+        border-zinc-900
+        bg-zinc-950
+        hover:bg-zinc-900
         transition
+        text-white
       "
     >
       <Icon size={15} />
 
-      <span className="text-sm">{label}</span>
+      <span className="text-sm         leading-0">{label}</span>
     </button>
   );
 };
