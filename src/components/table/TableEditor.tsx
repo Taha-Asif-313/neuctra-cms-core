@@ -120,10 +120,10 @@ const TableEditor = ({
         {/* LEFT */}
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center rounded-lg px-4 py-2.5 bg-zinc-500/10">
-            <Table2 size={14} className="text-zinc-600" />
+            <Table2 size={14} className="text-zinc-200" />
           </div>
 
-          <div className="text-sm text-zinc-600 font-medium">Table Editor</div>
+          <div className="text-sm text-zinc-200 font-medium">Table Editor</div>
         </div>
 
         {/* RIGHT */}
@@ -134,7 +134,7 @@ const TableEditor = ({
             className="
           flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs
           border border-zinc-300/20
-          bg-zinc-500/5 text-zinc-600
+          bg-zinc-500/5 text-zinc-200
           hover:bg-zinc-500/10 hover:text-zinc-900
           transition-all duration-200
         "
@@ -148,7 +148,7 @@ const TableEditor = ({
             className="
           flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs
           border border-zinc-300/20
-          bg-zinc-500/5 text-zinc-600
+          bg-zinc-500/5 text-zinc-200
           hover:bg-zinc-500/10 hover:text-zinc-900
           transition-all duration-200
         "

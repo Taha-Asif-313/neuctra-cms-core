@@ -143,6 +143,7 @@ const CodeBlockEditor = ({
             <Select
               value={language}
               showCheckIcon={false}
+              itemClassName="text-white!"
               onValueChange={(value) => {
                 const selectedLanguage = Array.isArray(value)
                   ? value[0]

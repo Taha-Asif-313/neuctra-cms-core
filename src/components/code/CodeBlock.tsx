@@ -107,7 +107,7 @@ const CodeBlock = ({
 
   return (
     <div
-      className={`relative group rounded-xl overflow-hidden bg-zinc-900/60 backdrop-blur-sm border border-zinc-800/60 ${className}`}
+      className={`relative group rounded-xl overflow-hidden bg-zinc-950 border border-zinc-900 ${className}`}
     >
       {/* Header */}
       <div className="flex items-center justify-between bg-zinc-900 border-b border-zinc-800/80">
@@ -126,10 +126,11 @@ const CodeBlock = ({
                 <button
                   key={index}
                   onClick={() => setActiveTab(index)}
-                  className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${activeTab === index
+                  className={`flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    activeTab === index
                       ? "text-[#00c420] "
                       : "text-zinc-400 hover:text-zinc-300 hover:bg-zinc-800/40"
-                    }`}
+                  }`}
                 >
                   <FileCode size={14} />
                   {tab.name}

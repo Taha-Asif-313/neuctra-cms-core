@@ -5,9 +5,14 @@
 interface HeadingPreviewProps {
   value?: string;
   level?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  theme?: "light" | "dark";
 }
 
-const HeadingPreview = ({ value = "", level = "h1" }: HeadingPreviewProps) => {
+const HeadingPreview = ({
+  value = "",
+  level = "h1",
+  theme = "dark",
+}: HeadingPreviewProps) => {
   const levels: Record<string, string> = {
     h1: "text-5xl font-black",
     h2: "text-4xl font-bold",
@@ -21,7 +26,16 @@ const HeadingPreview = ({ value = "", level = "h1" }: HeadingPreviewProps) => {
 
   if (!value?.trim()) return null;
 
-  return <div className={`text-foreground ${className}`}>{value}</div>;
+  return (
+    <div
+      className={`
+        ${className}
+        ${theme === "dark" ? "!text-white" : "!text-zinc-900"}
+      `}
+    >
+      {value}
+    </div>
+  );
 };
 
 export default HeadingPreview;

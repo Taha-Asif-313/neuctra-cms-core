@@ -194,74 +194,74 @@ const RichTextEditor = ({
   };
 
   return (
-<>
-  <div className="overflow-hidden rounded-3xl border border-zinc-900 bg-zinc-950">
-    {/* HEADER */}
-    <div className="flex items-center justify-between border-b border-zinc-300/20 px-5 py-4">
-      <div className="flex items-center gap-3">
-        <div className="flex items-center justify-center rounded-lg px-4 py-2.5 bg-zinc-900">
-          <PenSquare size={14} className="text-white" />
+    <>
+      <div className="overflow-hidden rounded-3xl border border-zinc-900 bg-zinc-950">
+        {/* HEADER */}
+        <div className="flex items-center justify-between border-b border-zinc-300/20 px-5 py-4">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center rounded-lg px-4 py-2.5 bg-zinc-900">
+              <PenSquare size={14} className="text-white" />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {/* PREVIEW TOGGLE */}
+            <button
+              onClick={() => setPreview((p) => !p)}
+              className={`flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm transition-all duration-200 ${
+                preview
+                  ? "bg-zinc-900 text-zinc-200"
+                  : "bg-zinc-900 text-zinc-200 hover:bg-zinc-900/10 hover:text-zinc-900"
+              }`}
+            >
+              <Eye size={14} />
+            </button>
+
+            {/* DELETE */}
+            {onDelete && (
+              <button
+                onClick={onDelete}
+                className="flex px-4 py-2.5 items-center justify-center rounded-lg bg-red-600/5 text-red-600 transition-all duration-200 hover:scale-105"
+              >
+                <Trash2 size={14} />
+              </button>
+            )}
+          </div>
         </div>
-      </div>
 
-      <div className="flex items-center gap-3">
-        {/* PREVIEW TOGGLE */}
-        <button
-          onClick={() => setPreview((p) => !p)}
-          className={`flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm transition-all duration-200 ${
-            preview
-              ? "bg-zinc-900 text-zinc-200"
-              : "bg-zinc-900 text-zinc-200 hover:bg-zinc-900/10 hover:text-zinc-900"
-          }`}
-        >
-          <Eye size={14} />
-        </button>
+        {/* TOOLBAR */}
+        <div className="flex flex-wrap items-center gap-2 border-b border-zinc-300/20 bg-zinc-900/40 p-4">
+          <Btn icon={Bold} onClick={() => exec("bold")} />
+          <Btn icon={Italic} onClick={() => exec("italic")} />
+          <Btn icon={Underline} onClick={() => exec("underline")} />
+          <Btn icon={Link} onClick={insertLink} />
 
-        {/* DELETE */}
-        {onDelete && (
-          <button
-            onClick={onDelete}
-            className="flex px-4 py-2.5 items-center justify-center rounded-lg bg-red-600/5 text-red-600 transition-all duration-200 hover:scale-105"
-          >
-            <Trash2 size={14} />
-          </button>
-        )}
-      </div>
-    </div>
+          <div className="mx-1 h-6 w-px bg-zinc-300/20" />
 
-    {/* TOOLBAR */}
-    <div className="flex flex-wrap items-center gap-2 border-b border-zinc-300/20 bg-zinc-900/40 p-4">
-      <Btn icon={Bold} onClick={() => exec("bold")} />
-      <Btn icon={Italic} onClick={() => exec("italic")} />
-      <Btn icon={Underline} onClick={() => exec("underline")} />
-      <Btn icon={Link} onClick={insertLink} />
+          <Btn icon={AlignLeft} onClick={() => exec("justifyLeft")} />
+          <Btn icon={AlignCenter} onClick={() => exec("justifyCenter")} />
+          <Btn icon={AlignRight} onClick={() => exec("justifyRight")} />
 
-      <div className="mx-1 h-6 w-px bg-zinc-300/20" />
+          <div className="mx-1 h-6 w-px bg-zinc-300/20" />
 
-      <Btn icon={AlignLeft} onClick={() => exec("justifyLeft")} />
-      <Btn icon={AlignCenter} onClick={() => exec("justifyCenter")} />
-      <Btn icon={AlignRight} onClick={() => exec("justifyRight")} />
+          <Btn icon={List} onClick={() => exec("insertUnorderedList")} />
+          <Btn icon={ListOrdered} onClick={() => exec("insertOrderedList")} />
+          <Btn icon={Quote} onClick={() => exec("formatBlock", "blockquote")} />
 
-      <div className="mx-1 h-6 w-px bg-zinc-300/20" />
+          <div className="mx-1 h-6 w-px bg-zinc-300/20" />
 
-      <Btn icon={List} onClick={() => exec("insertUnorderedList")} />
-      <Btn icon={ListOrdered} onClick={() => exec("insertOrderedList")} />
-      <Btn icon={Quote} onClick={() => exec("formatBlock", "blockquote")} />
+          <Btn icon={RemoveFormatting} onClick={clearFormat} />
+        </div>
 
-      <div className="mx-1 h-6 w-px bg-zinc-300/20" />
-
-      <Btn icon={RemoveFormatting} onClick={clearFormat} />
-    </div>
-
-    {/* EDITOR */}
-    <div
-      ref={editorRef}
-      contentEditable
-      aria-placeholder="Start Writing...."
-      suppressContentEditableWarning
-      onInput={handleInput}
-      style={{ display: preview ? "none" : "block" }}
-      className={`
+        {/* EDITOR */}
+        <div
+          ref={editorRef}
+          contentEditable
+          aria-placeholder="Start Writing...."
+          suppressContentEditableWarning
+          onInput={handleInput}
+          style={{ display: preview ? "none" : "block" }}
+          className={`
         min-h-55 px-5 py-2 outline-none text-white leading-8
         prose max-w-none
 
@@ -302,12 +302,11 @@ const RichTextEditor = ({
         prose-pre:rounded-xl
 
         [&_blockquote]:border-l-4
-        [&_blockquote]:border-zinc-400
-        [&_blockquote]:pl-6
+        [&_blockquote]:border-[#00C214]
+        [&_blockquote]:pl-2
         [&_blockquote]:italic
-        [&_blockquote]:text-zinc-600
-        [&_blockquote]:text-xl
-        [&_blockquote]:my-6
+        [&_blockquote]:my-5
+        [&_blockquote]:text-zinc-200
 
         [&_ul]:space-y-2
         [&_ul]:pl-6
@@ -316,51 +315,51 @@ const RichTextEditor = ({
 
         ${className}
       `}
-      data-placeholder={placeholder}
-    />
-
-    {/* PREVIEW COMPONENT */}
-    {preview && <RichTextPreview value={value} />}
-  </div>
-
-  {linkModal && (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-      <div className="w-[420px] rounded-2xl border border-zinc-300/30 bg-zinc-50 p-5 shadow-2xl">
-        <h2 className="mb-3 text-sm font-medium text-zinc-700">
-          Insert Link
-        </h2>
-
-        <input
-          value={linkUrl}
-          onChange={(e) => setLinkUrl(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleInsertLink()}
-          placeholder="https://example.com"
-          autoFocus
-          className="w-full rounded-xl border border-zinc-300/40 bg-white px-3 py-2 text-sm text-zinc-800 outline-none focus:border-zinc-900/50"
+          data-placeholder={placeholder}
         />
 
-        <div className="mt-4 flex items-center justify-end gap-2">
-          <button
-            onClick={() => {
-              savedSelection.current = null;
-              setLinkModal(false);
-            }}
-            className="rounded-xl px-3 py-2 text-sm text-zinc-900 hover:text-zinc-900"
-          >
-            Cancel
-          </button>
-
-          <button
-            onClick={handleInsertLink}
-            className="rounded-xl bg-zinc-800/10 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-800/20"
-          >
-            Insert
-          </button>
-        </div>
+        {/* PREVIEW COMPONENT */}
+        {preview && <RichTextPreview value={value} />}
       </div>
-    </div>
-  )}
-</>
+
+      {linkModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="w-[420px] rounded-2xl border border-zinc-300/30 bg-zinc-50 p-5 shadow-2xl">
+            <h2 className="mb-3 text-sm font-medium text-zinc-700">
+              Insert Link
+            </h2>
+
+            <input
+              value={linkUrl}
+              onChange={(e) => setLinkUrl(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleInsertLink()}
+              placeholder="https://example.com"
+              autoFocus
+              className="w-full rounded-xl border border-zinc-300/40 bg-white px-3 py-2 text-sm text-zinc-800 outline-none focus:border-zinc-900/50"
+            />
+
+            <div className="mt-4 flex items-center justify-end gap-2">
+              <button
+                onClick={() => {
+                  savedSelection.current = null;
+                  setLinkModal(false);
+                }}
+                className="rounded-xl px-3 py-2 text-sm text-zinc-900 hover:text-zinc-900"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleInsertLink}
+                className="rounded-xl bg-zinc-800/10 px-4 py-2 text-sm text-zinc-700 hover:bg-zinc-800/20"
+              >
+                Insert
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

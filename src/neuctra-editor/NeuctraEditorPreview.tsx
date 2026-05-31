@@ -11,34 +11,55 @@ import { Block } from "../utils/blogBlocks";
 interface NeuctraBlogPreviewProps {
   blocks?: Block[];
   className?: string;
+  theme?: "light" | "dark";
 }
 
 export const NeuctraEditorPreview = ({
   blocks = [],
   className = "",
+  theme = "dark",
 }: NeuctraBlogPreviewProps) => {
+  const isDark = theme === "dark";
+
   return (
-    <div className={`space-y-6 ${className} bg-black text-white py-6 px-4 rounded-lg`}>
+    <div
+      className={`
+        space-y-6
+        py-6
+        px-4
+        rounded-lg
+        transition-colors
+        ${isDark ? " !text-white" : "!text-zinc-900"}
+        ${className}
+      `}
+    >
       {blocks.map((block) => {
-        // TEXT (NOW RICH HTML)
+        // TEXT
         if (block.type === "text") {
-          return <RichTextPreview key={block.id} value={block.content} />;
+          return (
+            <RichTextPreview
+              key={block.id}
+              value={block.content}
+              theme={theme}
+            />
+          );
         }
 
-        // HEADING (RICH HTML SUPPORT)
+        // HEADING
         if (block.type === "heading") {
           return (
             <HeadingPreview
               key={block.id}
               value={block.content}
               level={block.level}
+              theme={theme}
             />
           );
         }
 
         // IMAGE
         if (block.type === "image") {
-          return <ImagePreview key={block.id} value={block} />;
+          return <ImagePreview key={block.id} value={block} theme={theme} />;
         }
 
         // CODE
@@ -52,15 +73,20 @@ export const NeuctraEditorPreview = ({
           );
         }
 
-        // TABLE (now using TablePreview)
+        // TABLE
         if (block.type === "table") {
           return (
-            <div key={block.id} className="rounded-2xl border border-white/10">
+            <div
+              key={block.id}
+              className={`
+                rounded-2xl border overflow-hidden
+                ${isDark ? "!border-white/10" : "!border-zinc-200"}
+              `}
+            >
               <TablePreview
                 headers={block.headers}
                 rows={block.rows}
-                striped
-                hoverable
+                theme={theme}
               />
             </div>
           );
@@ -72,4 +98,4 @@ export const NeuctraEditorPreview = ({
   );
 };
 
-
+export default NeuctraEditorPreview;

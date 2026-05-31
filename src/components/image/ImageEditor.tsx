@@ -27,7 +27,7 @@ const toggleClass = (active: boolean, color: string) => `
   ${
     active
       ? `border-${color}-500 bg-${color}-500/10 text-${color}-300`
-      : "border-white/10 bg-white/5 text-white/60 hover:bg-white/10"
+      : "border-white/10 bg-zinc-900 text-white/90 hover:bg-white/10"
   }
 `;
 
@@ -51,10 +51,8 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
         overflow-hidden
         rounded-3xl
         border
-        border-white/10
-        bg-linear-to-b
-        from-white/3
-        to-transparent
+        border-zinc-900
+        bg-zinc-950
       "
     >
       {/* HEADER */}
@@ -76,8 +74,8 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
         px-4 py-2.5
         text-xs
         leading-none
-        bg-white/5
-        text-white/60
+        bg-zinc-900
+        text-white/90
         capitalize
       "
           >
@@ -110,7 +108,7 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
         {/* URL */}
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/70">Image URL</label>
+          <label className="text-sm font-medium text-white/90">Image URL</label>
 
           <Input
             value={value.url || ""}
@@ -126,7 +124,7 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
         {/* CAPTION */}
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/70">Caption</label>
+          <label className="text-sm font-medium text-white/90">Caption</label>
 
           <Input
             value={value.caption || ""}
@@ -143,7 +141,7 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="space-y-2">
-            <label className="text-xs text-white/50">Width</label>
+            <label className="text-xs text-white/90">Width</label>
 
             <Input
               type="number"
@@ -158,7 +156,7 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs text-white/50">Height</label>
+            <label className="text-xs text-white/90">Height</label>
 
             <Input
               type="number"
@@ -173,7 +171,7 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs text-white/50">Radius</label>
+            <label className="text-xs text-white/90">Radius</label>
 
             <Input
               type="number"
@@ -188,7 +186,7 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs text-white/50">Opacity</label>
+            <label className="text-xs text-white/90">Opacity</label>
 
             <Input
               type="number"
@@ -208,7 +206,7 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
 
         {/* OBJECT FIT */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-white/70">
+          <label className="text-sm font-medium text-white/90">
             Object Fit
           </label>
 
@@ -244,7 +242,7 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
 
         {value.showOverlay && (
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white/70">
+            <label className="text-sm font-medium text-white/90">
               Overlay Content
             </label>
 
@@ -268,15 +266,15 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
             overflow-hidden
             rounded-3xl
             border
-            border-white/10
-            bg-black/30
+            border-zinc-900
+            bg-zinc-950
             p-4
           "
         >
           <div className="mb-4 flex items-center gap-2">
             <Box size={15} className="text-white/40" />
 
-            <span className="text-sm text-white/60">Live Preview</span>
+            <span className="text-sm text-white/90">Live Preview</span>
           </div>
 
           <Image
@@ -309,11 +307,11 @@ const ImageEditor = ({ value = {}, onChange, onDelete }: ImageEditorProps) => {
               className="
                 mt-4
                 border-t
-                border-white/10
+                border-zinc-900
                 pt-4
               "
             >
-              <p className="text-sm text-white/60">{value.caption}</p>
+              <p className="text-sm text-white/90">{value.caption}</p>
             </div>
           )}
         </div>

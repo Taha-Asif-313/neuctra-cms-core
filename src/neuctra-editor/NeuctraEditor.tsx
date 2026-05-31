@@ -28,12 +28,10 @@ import { Editor } from "@monaco-editor/react";
 
 interface NeuctraEditorProps {
   blocks?: Block[];
-
   setBlocks?: React.Dispatch<React.SetStateAction<Block[]>>;
-
   className?: string;
-
   showToolbar?: boolean;
+  theme?: "light" | "dark";
 }
 
 export const NeuctraEditor = ({
@@ -41,10 +39,9 @@ export const NeuctraEditor = ({
   setBlocks,
   className = "",
   showToolbar = true,
+  theme = "dark",
 }: NeuctraEditorProps) => {
-  /* =========================================================
-     STATE
-  ========================================================= */
+  const isDark = theme === "dark";
 
   const [showBlocksPreview, setShowBlocksPreview] = useState(false);
 
@@ -156,13 +153,35 @@ export const NeuctraEditor = ({
       {/* TOOLBAR */}
       {showToolbar && (
         <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
+          {/* LEFT TITLE */}
           <div className="flex items-center gap-3 px-1">
-            <div className="h-8 w-1 rounded-full bg-stone-500" />
+            <div
+              className={`
+      h-8 w-1 rounded-full
+      ${isDark ? "!bg-zinc-50" : "!bg-zinc-950"}
+    `}
+            />
 
-            <div>
-              <h3 className="text-sm font-black text-stone-500">
-                Add Content
+            <div className="flex flex-col">
+              <h3
+                className={`
+        text-sm font-black leading-tight
+        ${isDark ? "!text-zinc-50" : "!text-zinc-950"}
+      `}
+              >
+                Add Blocks
               </h3>
+
+              {/* SUBLINE */}
+              <p
+                className={`
+        text-xs
+        leading-none
+        ${isDark ? "!text-zinc-400" : "!text-zinc-500"}
+      `}
+              >
+                Build your content
+              </p>
             </div>
           </div>
 
@@ -521,7 +540,7 @@ const ToolbarButton = ({ icon: Icon, label, onClick }: ToolbarButtonProps) => {
         gap-2
         px-4
         py-2
-        rounded-lg
+        rounded-xl
         border
         border-zinc-900
         bg-zinc-950
@@ -532,7 +551,7 @@ const ToolbarButton = ({ icon: Icon, label, onClick }: ToolbarButtonProps) => {
     >
       <Icon size={15} />
 
-      <span className="text-sm         leading-0">{label}</span>
+      <span className="text-sm leading-0">{label}</span>
     </button>
   );
 };
