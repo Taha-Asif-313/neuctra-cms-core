@@ -262,59 +262,62 @@ const RichTextEditor = ({
           onInput={handleInput}
           style={{ display: preview ? "none" : "block" }}
           className={`
-        min-h-55 px-5 py-2 outline-none text-white leading-8
-        prose max-w-none
+    min-h-55 px-5 py-2 outline-none leading-8
+    prose max-w-none
 
-        prose-p:text-zinc-700
-        prose-p:leading-8
-        prose-p:text-lg
+    prose-p:text-zinc-300
+    prose-p:leading-8
+    prose-p:text-lg
 
-        prose-strong:text-zinc-900
-        prose-em:text-zinc-900
+    prose-strong:text-white
+    prose-em:text-zinc-400
 
-        prose-a:text-zinc-600
-        prose-a:no-underline
-        prose-a:hover:underline
+    prose-a:text-cyan-400
+    prose-a:no-underline
+    prose-a:hover:underline
 
-        prose-headings:text-zinc-900
-        prose-h1:text-3xl
-        prose-h2:text-2xl
-        prose-h3:text-xl
+    prose-headings:text-white
+    prose-h1:text-3xl
+    prose-h2:text-2xl
+    prose-h3:text-xl
 
-        prose-ul:list-disc
-        prose-ol:list-decimal
+    prose-ul:list-disc
+    prose-ol:list-decimal
+    prose-ul:list-outside
+    prose-ol:list-outside
 
-        prose-li:text-zinc-700
-        prose-li:text-lg
-        prose-li:leading-7
-        prose-li:pl-2
-        prose-li:my-2
+    [&_ul]:pl-6
+    [&_ol]:pl-6
+    [&_ul]:space-y-2
+    [&_ol]:space-y-2
 
-        prose-code:text-zinc-800
-        prose-code:bg-zinc-900/10
-        prose-code:px-1.5
-        prose-code:py-0.5
-        prose-code:rounded
+    prose-li:text-zinc-300
+    prose-li:text-lg
+    prose-li:leading-7
+    prose-li:my-2
 
-        prose-pre:bg-zinc-900/5
-        prose-pre:border
-        prose-pre:border-zinc-300/20
-        prose-pre:rounded-xl
+    prose-code:text-cyan-300
+    prose-code:bg-white/5
+    prose-code:px-1.5
+    prose-code:py-0.5
+    prose-code:rounded
 
-        [&_blockquote]:border-l-4
-        [&_blockquote]:border-[#00C214]
-        [&_blockquote]:pl-2
-        [&_blockquote]:italic
-        [&_blockquote]:my-5
-        [&_blockquote]:text-zinc-200
+    prose-pre:bg-black/30
+    prose-pre:border
+    prose-pre:border-white/10
+    prose-pre:rounded-xl
 
-        [&_ul]:space-y-2
-        [&_ul]:pl-6
-        [&_ol]:space-y-2
-        [&_ol]:pl-6
+    [&_blockquote]:border-l-4
+    [&_blockquote]:border-[#00C214]
+    [&_blockquote]:pl-3
+    [&_blockquote]:italic
+    [&_blockquote]:my-5
+    [&_blockquote]:text-zinc-200
 
-        ${className}
-      `}
+    [&_p]:mb-3
+
+    ${className}
+  `}
           data-placeholder={placeholder}
         />
 
