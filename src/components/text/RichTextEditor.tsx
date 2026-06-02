@@ -281,31 +281,15 @@ const RichTextEditor = ({
     prose-h2:text-2xl
     prose-h3:text-xl
 
-    prose-ul:list-disc
-    prose-ol:list-decimal
-    prose-ul:list-outside
-    prose-ol:list-outside
+    [&_ul]:list-disc
+    [&_ol]:list-decimal
+    [&_li]:list-item
 
     [&_ul]:pl-6
     [&_ol]:pl-6
-    [&_ul]:space-y-2
-    [&_ol]:space-y-2
 
     prose-li:text-zinc-300
-    prose-li:text-lg
     prose-li:leading-7
-    prose-li:my-2
-
-    prose-code:text-cyan-300
-    prose-code:bg-white/5
-    prose-code:px-1.5
-    prose-code:py-0.5
-    prose-code:rounded
-
-    prose-pre:bg-black/30
-    prose-pre:border
-    prose-pre:border-white/10
-    prose-pre:rounded-xl
 
     [&_blockquote]:border-l-4
     [&_blockquote]:border-[#00C214]

@@ -55,7 +55,6 @@ const RichTextPreview = ({
   prose-p:leading-8
   prose-p:text-lg
 
-  prose-a:text-cyan-500
   prose-a:no-underline
   prose-a:hover:underline
 
@@ -63,18 +62,15 @@ const RichTextPreview = ({
   prose-h2:text-2xl
   prose-h3:text-xl
 
-  /* ✅ FIXED LIST SUPPORT */
-  prose-ul:list-disc
-  prose-ol:list-decimal
-  prose-ul:list-outside
-  prose-ol:list-outside
+  [&_ul]:list-disc
+  [&_ol]:list-decimal
+  [&_li]:list-item
 
   [&_ul]:pl-6
   [&_ol]:pl-6
   [&_ul]:space-y-2
   [&_ol]:space-y-2
 
-  prose-li:text-lg
   prose-li:leading-7
   prose-li:my-2
 
@@ -90,6 +86,8 @@ const RichTextPreview = ({
   [&_blockquote]:pl-2
   [&_blockquote]:italic
   [&_blockquote]:my-5
+
+  [&_p]:mb-3
 
   ${className}
 `}
