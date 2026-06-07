@@ -1,6 +1,6 @@
 {
   "name": "@neuctra/cms-core",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "type": "module",
   "description": "A powerful, modular CMS core engine for building modern content editors, blogs, notes, and structured content systems with React and Tailwind CSS.",
   "author": "Your Name <tahaasifaqwe@gmail.com>",
