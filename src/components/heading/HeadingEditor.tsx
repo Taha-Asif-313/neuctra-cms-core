@@ -25,19 +25,19 @@ const HeadingEditor = ({
     {
       value: "h1" as const,
       label: "H1",
-      className: "text-5xl font-black",
+      className: "text-5xl font-bold",
     },
 
     {
       value: "h2" as const,
       label: "H2",
-      className: "text-4xl font-bold",
+      className: "text-4xl font-semibold",
     },
 
     {
       value: "h3" as const,
       label: "H3",
-      className: "text-3xl font-bold",
+      className: "text-3xl font-semibold",
     },
 
     {

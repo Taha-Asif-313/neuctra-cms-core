@@ -15,8 +15,8 @@ const HeadingPreview = ({
 }: HeadingPreviewProps) => {
   const levels: Record<string, string> = {
     h1: "text-5xl font-black",
-    h2: "text-4xl font-bold",
-    h3: "text-3xl font-bold",
+    h2: "text-4xl font-semibold",
+    h3: "text-3xl font-semibold",
     h4: "text-2xl font-semibold",
     h5: "text-xl font-semibold",
     h6: "text-lg font-medium",
