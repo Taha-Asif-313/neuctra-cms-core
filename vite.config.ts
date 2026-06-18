@@ -29,6 +29,7 @@ export default defineConfig({
       external: ["react", "react-dom"],
     },
 
+    assetsInlineLimit: 0,
     sourcemap: true,
     emptyOutDir: true,
   },

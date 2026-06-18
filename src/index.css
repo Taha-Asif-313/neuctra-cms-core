@@ -3,3 +3,66 @@
 @import "tailwindcss";
 
 @source "../node_modules/@neuctra/ui";
+
+/* 🕌 Custom Fonts */
+@font-face {
+  font-family: "JameelNoori";
+  src: url("./fonts/JameelNoori.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "QuranFont";
+  src: url("./fonts/QuranFont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "QuranSurah";
+  src: url("./fonts/QuranSurah.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Hafs";
+  src: url("./fonts/hafs.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Rich Text Fonts */
+
+.font-inter {
+  font-family: "Inter", sans-serif;
+}
+
+.font-poppins {
+  font-family: "Poppins", sans-serif;
+}
+
+.font-roboto {
+  font-family: "Roboto", sans-serif;
+}
+
+.font-jameel {
+  font-family: "JameelNoori", serif;
+}
+
+.font-quran {
+  font-family: "QuranFont", serif;
+}
+
+.font-quran-surah {
+  font-family: "QuranSurah", serif;
+}
+
+.font-hafs {
+  font-family: "Hafs", serif;
+}

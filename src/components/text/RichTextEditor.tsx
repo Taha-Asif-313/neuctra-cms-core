@@ -15,9 +15,28 @@ import {
   LucideIcon,
   RemoveFormatting,
 } from "lucide-react";
-
+import { Select } from "@neuctra/ui";
 import { useRef, useEffect, useState } from "react";
 import RichTextPreview from "./RichTextPreview";
+
+const FONTS = [
+  { label: "Inter", value: "'Inter', sans-serif" },
+  { label: "Poppins", value: "'Poppins', sans-serif" },
+  { label: "Roboto", value: "'Roboto', sans-serif" },
+  { label: "Jameel Noori", value: "'JameelNoori', serif" },
+  { label: "Quran Font", value: "'QuranFont', serif" },
+  { label: "Quran Surah", value: "'QuranSurah', serif" },
+  { label: "Hafs", value: "'Hafs', serif" },
+];
+
+const FONT_SIZES = [
+  { label: "Small", value: "14px" },
+  { label: "Normal", value: "16px" },
+  { label: "Large", value: "18px" },
+  { label: "XL", value: "20px" },
+  { label: "2XL", value: "24px" },
+  { label: "3XL", value: "30px" },
+];
 
 /* =========================================
    RICH TEXT EDITOR
@@ -44,6 +63,52 @@ const RichTextEditor = ({
   const [linkUrl, setLinkUrl] = useState("");
   const [preview, setPreview] = useState(false);
 
+  const fontOptions = FONTS.map((font) => ({
+    label: font.label,
+    value: font.value,
+  }));
+
+  const fontSizeOptions = FONT_SIZES.map((fontSize) => ({
+    label: fontSize.label,
+    value: fontSize.value,
+  }));
+
+  const [fontFamily, setFontFamily] = useState("");
+  const [fontSize, setFontSize] = useState("");
+
+  const isSelectionInsideEditor = (range: Range) => {
+    const el = editorRef.current;
+    if (!el) return false;
+
+    const container = range.commonAncestorContainer;
+    return el.contains(
+      container.nodeType === Node.ELEMENT_NODE
+        ? container
+        : container.parentElement
+    );
+  };
+
+  const saveSelection = () => {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+
+    const range = selection.getRangeAt(0);
+    if (isSelectionInsideEditor(range)) {
+      savedSelection.current = range.cloneRange();
+    }
+  };
+
+  const restoreSelection = () => {
+    const selection = window.getSelection();
+    const range = savedSelection.current;
+
+    if (!selection || !range) return false;
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+    return true;
+  };
+
   /* INIT SYNC */
   useEffect(() => {
     const el = editorRef.current;
@@ -68,18 +133,15 @@ const RichTextEditor = ({
 
   /* EXEC COMMAND */
   const exec = (command: string, value?: string) => {
+    editorRef.current?.focus();
+    restoreSelection();
     document.execCommand(command, false, value);
 
-    const html = editorRef.current?.innerHTML;
-    if (html) onChange(html);
+    onChange(editorRef.current?.innerHTML || "");
   };
 
   const insertLink = () => {
-    const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      savedSelection.current = selection.getRangeAt(0).cloneRange();
-    }
-
+    saveSelection();
     setLinkUrl("");
     setLinkModal(true);
   };
@@ -189,8 +251,77 @@ const RichTextEditor = ({
 
   /* INPUT */
   const handleInput = () => {
-    const html = editorRef.current?.innerHTML;
-    if (html) onChange(html);
+    saveSelection();
+    onChange(editorRef.current?.innerHTML || "");
+  };
+
+  const applyFontFamily = (font: string) => {
+    const el = editorRef.current;
+    if (!el) return;
+
+    el.focus();
+    restoreSelection();
+
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+
+    const range = selection.getRangeAt(0);
+    if (!isSelectionInsideEditor(range)) return;
+
+    if (range.collapsed) {
+      document.execCommand("fontName", false, font);
+      savedSelection.current = range.cloneRange();
+      onChange(el.innerHTML);
+      return;
+    }
+
+    const span = document.createElement("span");
+
+    span.style.fontFamily = font;
+
+    span.appendChild(range.extractContents());
+    range.insertNode(span);
+
+    selection.removeAllRanges();
+
+    const newRange = document.createRange();
+    newRange.selectNodeContents(span);
+    newRange.collapse(false);
+    selection.addRange(newRange);
+    savedSelection.current = newRange.cloneRange();
+
+    onChange(el.innerHTML);
+  };
+
+  const applyFontSize = (size: string) => {
+    const el = editorRef.current;
+    if (!el) return;
+
+    el.focus();
+    restoreSelection();
+
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+
+    const range = selection.getRangeAt(0);
+    if (!isSelectionInsideEditor(range) || range.collapsed) return;
+
+    const span = document.createElement("span");
+
+    span.style.fontSize = size;
+
+    span.appendChild(range.extractContents());
+    range.insertNode(span);
+
+    selection.removeAllRanges();
+
+    const newRange = document.createRange();
+    newRange.selectNodeContents(span);
+    newRange.collapse(false);
+    selection.addRange(newRange);
+    savedSelection.current = newRange.cloneRange();
+
+    onChange(el.innerHTML);
   };
 
   return (
@@ -250,6 +381,60 @@ const RichTextEditor = ({
 
           <div className="mx-1 h-6 w-px bg-zinc-300/20" />
 
+          <div onMouseDownCapture={saveSelection} onFocusCapture={saveSelection}>
+            <Select
+              options={fontOptions}
+              value={fontFamily}
+              onValueChange={(value) => {
+                const font = Array.isArray(value) ? value[0] : value;
+
+                if (typeof font !== "string") return;
+
+                setFontFamily(font);
+                applyFontFamily(font);
+              }}
+              placeholder="Font"
+              size="sm"
+              triggerClassName="
+    h-10 rounded-lg border border-zinc-800
+    bg-zinc-900 text-sm text-white
+  "
+              dropdownClassName="
+    bg-zinc-950 border border-zinc-800
+  "
+              itemClassName="
+    text-zinc-200 hover:bg-zinc-900
+  "
+            />
+          </div>
+
+          <div onMouseDownCapture={saveSelection} onFocusCapture={saveSelection}>
+            <Select
+              options={fontSizeOptions}
+              value={fontSize}
+              onValueChange={(value) => {
+                const size = Array.isArray(value) ? value[0] : value;
+
+                if (typeof size !== "string") return;
+
+                setFontSize(size);
+                applyFontSize(size);
+              }}
+              placeholder="Size"
+              size="sm"
+              triggerClassName="
+    h-10 rounded-lg border border-zinc-800
+    bg-zinc-900 text-sm text-white
+  "
+              dropdownClassName="
+    bg-zinc-950 border border-zinc-800
+  "
+              itemClassName="
+    text-zinc-200 hover:bg-zinc-900
+  "
+            />
+          </div>
+
           <Btn icon={RemoveFormatting} onClick={clearFormat} />
         </div>
 
@@ -260,6 +445,9 @@ const RichTextEditor = ({
           aria-placeholder="Start Writing...."
           suppressContentEditableWarning
           onInput={handleInput}
+          onKeyUp={saveSelection}
+          onMouseUp={saveSelection}
+          onBlur={saveSelection}
           style={{ display: preview ? "none" : "block" }}
           className={`
     min-h-55 px-5 py-2 outline-none leading-8

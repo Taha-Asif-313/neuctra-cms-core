@@ -39,7 +39,7 @@ export const NeuctraEditor = ({
   setBlocks,
   className = "",
   showToolbar = true,
-  theme = "dark",
+  theme = "light",
 }: NeuctraEditorProps) => {
   const isDark = theme === "dark";
 
