@@ -84,7 +84,7 @@ const RichTextEditor = ({
     return el.contains(
       container.nodeType === Node.ELEMENT_NODE
         ? container
-        : container.parentElement
+        : container.parentElement,
     );
   };
 
@@ -361,7 +361,16 @@ const RichTextEditor = ({
         </div>
 
         {/* TOOLBAR */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-zinc-300/20 bg-zinc-900/40 p-4">
+        <div
+          className="
+    sticky top-0 z-30
+    flex flex-wrap items-center gap-2
+    border-b border-zinc-300/20
+    bg-zinc-950/95
+    backdrop-blur-md
+    p-4
+  "
+        >
           <Btn icon={Bold} onClick={() => exec("bold")} />
           <Btn icon={Italic} onClick={() => exec("italic")} />
           <Btn icon={Underline} onClick={() => exec("underline")} />
@@ -381,7 +390,10 @@ const RichTextEditor = ({
 
           <div className="mx-1 h-6 w-px bg-zinc-300/20" />
 
-          <div onMouseDownCapture={saveSelection} onFocusCapture={saveSelection}>
+          <div
+            onMouseDownCapture={saveSelection}
+            onFocusCapture={saveSelection}
+          >
             <Select
               options={fontOptions}
               value={fontFamily}
@@ -408,7 +420,10 @@ const RichTextEditor = ({
             />
           </div>
 
-          <div onMouseDownCapture={saveSelection} onFocusCapture={saveSelection}>
+          <div
+            onMouseDownCapture={saveSelection}
+            onFocusCapture={saveSelection}
+          >
             <Select
               options={fontSizeOptions}
               value={fontSize}
@@ -439,18 +454,19 @@ const RichTextEditor = ({
         </div>
 
         {/* EDITOR */}
-        <div
-          ref={editorRef}
-          contentEditable
-          aria-placeholder="Start Writing...."
-          suppressContentEditableWarning
-          onInput={handleInput}
-          onKeyUp={saveSelection}
-          onMouseUp={saveSelection}
-          onBlur={saveSelection}
-          style={{ display: preview ? "none" : "block" }}
-          className={`
-    min-h-55 px-5 py-2 outline-none leading-8
+        <div className={`${!preview && "h-[350px]"} overflow-y-auto`}>
+          <div
+            ref={editorRef}
+            contentEditable
+            aria-placeholder="Start Writing...."
+            suppressContentEditableWarning
+            onInput={handleInput}
+            onKeyUp={saveSelection}
+            onMouseUp={saveSelection}
+            onBlur={saveSelection}
+            style={{ display: preview ? "none" : "block" }}
+            className={`
+    min-h-full px-5 py-2 outline-none leading-8
     prose max-w-none
 
     prose-p:text-zinc-300
@@ -490,8 +506,9 @@ const RichTextEditor = ({
 
     ${className}
   `}
-          data-placeholder={placeholder}
-        />
+            data-placeholder={placeholder}
+          />
+        </div>
 
         {/* PREVIEW COMPONENT */}
         {preview && <RichTextPreview value={value} />}
