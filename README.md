@@ -27,7 +27,7 @@ Built for developers who want a **flexible block-based editor system** with a cl
 ##  Installation
 
 ```bash
-npm install @neuctra/cms-core
+npm install @neuctra/cms-core@latest
 ````
 
 or
