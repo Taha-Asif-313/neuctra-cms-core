@@ -367,7 +367,6 @@ const RichTextEditor = ({
     flex flex-wrap items-center gap-2
     border-b border-zinc-300/20
     bg-zinc-950/95
-    backdrop-blur-md
     p-4
   "
         >
