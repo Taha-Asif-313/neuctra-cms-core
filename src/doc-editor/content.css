@@ -1,0 +1,202 @@
+/* Document typography. Shared by the editor, the previews, print and export. */
+
+.ndoc-content {
+  color: var(--ndoc-text, inherit);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11pt;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+.ndoc-content--web {
+  font-family: inherit;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.ndoc-content > :first-child {
+  margin-top: 0;
+}
+
+.ndoc-content p {
+  margin: 0 0 0.75em;
+}
+
+.ndoc-content h1,
+.ndoc-content h2,
+.ndoc-content h3,
+.ndoc-content h4,
+.ndoc-content h5,
+.ndoc-content h6 {
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 1.1em 0 0.45em;
+}
+
+.ndoc-content h1 { font-size: 2em; }
+.ndoc-content h2 { font-size: 1.6em; }
+.ndoc-content h3 { font-size: 1.3em; }
+.ndoc-content h4 { font-size: 1.15em; }
+.ndoc-content h5 { font-size: 1em; }
+.ndoc-content h6 { font-size: 0.9em; opacity: 0.75; }
+
+.ndoc-content strong { font-weight: 700; }
+.ndoc-content em { font-style: italic; }
+.ndoc-content u { text-decoration: underline; }
+.ndoc-content s { text-decoration: line-through; }
+.ndoc-content sub { font-size: 0.75em; vertical-align: sub; }
+.ndoc-content sup { font-size: 0.75em; vertical-align: super; }
+
+.ndoc-content a {
+  color: var(--ndoc-link, #1155cc);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.ndoc-content mark {
+  background-color: #fff2a8;
+  border-radius: 2px;
+  color: #111;
+  padding: 0 1px;
+}
+
+.ndoc-content ul,
+.ndoc-content ol {
+  margin: 0 0 0.75em;
+  padding-inline-start: 1.75em;
+}
+
+.ndoc-content ul { list-style: disc; }
+.ndoc-content ul ul { list-style: circle; }
+.ndoc-content ul ul ul { list-style: square; }
+.ndoc-content ol { list-style: decimal; }
+.ndoc-content ol ol { list-style: lower-alpha; }
+.ndoc-content ol ol ol { list-style: lower-roman; }
+.ndoc-content li { display: list-item; }
+.ndoc-content li > p { margin: 0 0 0.25em; }
+.ndoc-content li > ul,
+.ndoc-content li > ol { margin-bottom: 0.25em; }
+
+.ndoc-content ul[data-type="taskList"] {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.ndoc-content ul[data-type="taskList"] > li {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.5em;
+}
+
+.ndoc-content ul[data-type="taskList"] > li > label {
+  flex: none;
+  margin-top: 0.2em;
+  user-select: none;
+}
+
+.ndoc-content ul[data-type="taskList"] > li > label > input {
+  accent-color: #00a912;
+  height: 1em;
+  width: 1em;
+}
+
+.ndoc-content ul[data-type="taskList"] > li > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.ndoc-content li[data-checked="true"] > div {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.ndoc-content blockquote {
+  border-inline-start: 3px solid #00c214;
+  font-style: italic;
+  margin: 1em 0;
+  padding-inline-start: 1em;
+}
+
+.ndoc-content code {
+  background: rgba(127, 127, 127, 0.16);
+  border-radius: 4px;
+  font-family: "Fira Code", Consolas, Monaco, monospace;
+  font-size: 0.9em;
+  padding: 0.1em 0.3em;
+}
+
+.ndoc-content pre {
+  background: #18181b;
+  border-radius: 8px;
+  color: #f4f4f5;
+  margin: 1em 0;
+  overflow-x: auto;
+  padding: 0.9em 1.1em;
+  white-space: pre-wrap;
+}
+
+.ndoc-content pre code {
+  background: none;
+  color: inherit;
+  font-size: 0.875em;
+  padding: 0;
+}
+
+.ndoc-content hr {
+  border: 0;
+  border-top: 1px solid rgba(127, 127, 127, 0.45);
+  margin: 1.5em 0;
+}
+
+.ndoc-content img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+.ndoc-content table {
+  border-collapse: collapse;
+  margin: 1em 0;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.ndoc-content th,
+.ndoc-content td {
+  border: 1px solid rgba(127, 127, 127, 0.5);
+  min-width: 3em;
+  padding: 0.4em 0.6em;
+  position: relative;
+  text-align: start;
+  vertical-align: top;
+}
+
+.ndoc-content th {
+  background: rgba(127, 127, 127, 0.12);
+  font-weight: 700;
+}
+
+.ndoc-content th > p,
+.ndoc-content td > p {
+  margin: 0;
+}
+
+.ndoc-page-break {
+  border: 0;
+  break-after: page;
+}
+
+@media print {
+  .ndoc-content h1,
+  .ndoc-content h2,
+  .ndoc-content h3,
+  .ndoc-content h4 {
+    break-after: avoid;
+  }
+
+  .ndoc-content img,
+  .ndoc-content tr,
+  .ndoc-content pre {
+    break-inside: avoid;
+  }
+}

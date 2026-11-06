@@ -1,0 +1,876 @@
+@import "./content.css";
+
+/* Editor chrome. Plain CSS with ndoc- classes, so it works whether or not the
+   host app scans this package with Tailwind. */
+
+.ndoc-scope {
+  --ndoc-bg: #ffffff;
+  --ndoc-canvas: #f0f1f3;
+  --ndoc-surface: #ffffff;
+  --ndoc-page-bg: #ffffff;
+  --ndoc-text: #1f2328;
+  --ndoc-muted: #5f6672;
+  --ndoc-border: #dfe2e6;
+  --ndoc-hover: #eceef1;
+  --ndoc-active: #dcf5df;
+  --ndoc-active-text: #0a6b1a;
+  --ndoc-accent: #00a912;
+  --ndoc-link: #1155cc;
+  --ndoc-shadow: 0 1px 3px rgba(20, 24, 31, 0.16);
+  --ndoc-pop: 0 8px 28px rgba(20, 24, 31, 0.2);
+  --ndoc-sel: rgba(0, 169, 18, 0.18);
+
+  /* @neuctra/ui tokens, so its components follow the editor's theme. */
+  --background: var(--ndoc-surface);
+  --foreground: var(--ndoc-text);
+  --card: var(--ndoc-surface);
+  --card-foreground: var(--ndoc-text);
+  --popover: var(--ndoc-surface);
+  --popover-foreground: var(--ndoc-text);
+  --primary: #087f17;
+  --primary-foreground: #ffffff;
+  --muted: var(--ndoc-hover);
+  --muted-foreground: var(--ndoc-muted);
+  --accent: var(--ndoc-hover);
+  --accent-foreground: var(--ndoc-text);
+  --destructive: #d62c2c;
+  --destructive-foreground: #ffffff;
+  --border: var(--ndoc-border);
+  --input: var(--ndoc-border);
+  --ring: var(--ndoc-accent);
+}
+
+.ndoc-scope[data-theme="dark"],
+.ndoc-theme-dark {
+  --ndoc-bg: #18181b;
+  --ndoc-canvas: #0f0f11;
+  --ndoc-surface: #1f1f23;
+  --ndoc-page-bg: #1b1b1f;
+  --ndoc-text: #ececf0;
+  --ndoc-muted: #a0a0ab;
+  --ndoc-border: #303036;
+  --ndoc-hover: #2b2b31;
+  --ndoc-active: #17391c;
+  --ndoc-active-text: #7fe08b;
+  --ndoc-link: #7db3ff;
+  --ndoc-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  --ndoc-pop: 0 8px 28px rgba(0, 0, 0, 0.6);
+}
+
+.ndoc-root {
+  background: var(--ndoc-bg);
+  color: var(--ndoc-text);
+  display: flex;
+  flex-direction: column;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.ndoc-root[data-fullscreen] {
+  inset: 0;
+  position: fixed;
+  z-index: 60;
+}
+
+/* Styles here are unlayered, so they beat Tailwind utilities. Never target bare
+   elements inside .ndoc-scope: that would override @neuctra/ui components. */
+.ndoc-btn:focus-visible,
+.ndoc-item:focus-visible,
+.ndoc-menu-trigger:focus-visible,
+.ndoc-title:focus-visible {
+  outline: 2px solid var(--ndoc-accent);
+  outline-offset: 1px;
+}
+
+/* ---------- Title bar ---------- */
+
+.ndoc-titlebar {
+  align-items: center;
+  display: flex;
+  flex: none;
+  gap: 10px;
+  padding: 8px 14px 2px;
+}
+
+.ndoc-logo {
+  color: var(--ndoc-accent);
+  flex: none;
+}
+
+.ndoc-titlebar-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.ndoc-title-row {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+}
+
+.ndoc-title {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 17px;
+  field-sizing: content;
+  max-width: 60%;
+  min-width: 80px;
+  padding: 1px 6px;
+}
+
+.ndoc-title:hover { border-color: var(--ndoc-border); }
+.ndoc-title:focus { background: var(--ndoc-surface); }
+
+.ndoc-save {
+  align-items: center;
+  color: var(--ndoc-muted);
+  display: inline-flex;
+  flex: none;
+  font-size: 12px;
+  gap: 4px;
+}
+
+.ndoc-save[data-state="error"] { color: #d62c2c; }
+.ndoc-save[data-state="saving"] svg { animation: ndoc-spin 1s linear infinite; }
+
+@keyframes ndoc-spin {
+  to { transform: rotate(360deg); }
+}
+
+.ndoc-actions {
+  align-items: center;
+  display: flex;
+  flex: none;
+  gap: 8px;
+}
+
+/* ---------- Menu bar ---------- */
+
+.ndoc-menubar {
+  display: flex;
+  gap: 1px;
+}
+
+.ndoc-menu-trigger {
+  background: none;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 7px;
+}
+
+.ndoc-menu-trigger:hover,
+.ndoc-menu-trigger[data-active] {
+  background: var(--ndoc-hover);
+}
+
+.ndoc-menu-panel {
+  max-height: none;
+  min-width: 230px;
+  overflow: visible;
+}
+
+.ndoc-menu-row { position: relative; }
+
+.ndoc-submenu {
+  display: none;
+  inset-inline-start: 100%;
+  position: absolute;
+  top: -5px;
+}
+
+.ndoc-submenu > .ndoc-panel {
+  inset-inline-start: 0;
+  position: relative;
+  top: 0;
+}
+
+.ndoc-menu-row:hover > .ndoc-submenu,
+.ndoc-menu-row:focus-within > .ndoc-submenu {
+  display: block;
+}
+
+/* ---------- Toolbar ---------- */
+
+.ndoc-toolbar {
+  align-items: center;
+  background: var(--ndoc-surface);
+  border-block: 1px solid var(--ndoc-border);
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 4px 10px;
+  position: relative;
+  z-index: 20;
+}
+
+.ndoc-btn {
+  align-items: center;
+  background: none;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-flex;
+  flex: none;
+  gap: 2px;
+  height: 30px;
+  justify-content: center;
+  min-width: 30px;
+  padding: 0;
+  transition: background-color 0.1s;
+}
+
+.ndoc-btn:hover:not(:disabled) { background: var(--ndoc-hover); }
+
+.ndoc-btn[data-active],
+.ndoc-btn[data-active]:hover:not(:disabled) {
+  background: var(--ndoc-active);
+  color: var(--ndoc-active-text);
+}
+
+.ndoc-btn:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.ndoc-btn-wide { padding: 0 4px; }
+
+.ndoc-sep {
+  align-self: center;
+  flex: none;
+  height: 20px;
+  margin-inline: 4px;
+}
+
+.ndoc-sr-only {
+  border: 0;
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.ndoc-tool-select {
+  flex: none;
+  font-size: 13px;
+}
+
+.ndoc-tool-select button[role="combobox"] {
+  background: transparent;
+  border-color: transparent;
+  font-size: 13px;
+  height: 30px;
+  padding: 0 6px;
+}
+
+.ndoc-tool-select button[role="combobox"]:hover {
+  background: var(--ndoc-hover);
+}
+
+.ndoc-select-panel {
+  box-shadow: var(--ndoc-pop);
+  font-size: 13px;
+}
+
+.ndoc-popover {
+  box-shadow: var(--ndoc-pop);
+  padding: 6px;
+  z-index: 40;
+}
+
+.ndoc-tool-menu {
+  border-radius: 8px;
+  box-shadow: var(--ndoc-pop);
+  color: var(--ndoc-text);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  padding: 4px;
+}
+
+.ndoc-tool-menu-item {
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.ndoc-tool-menu-item.ndoc-menu-active {
+  background: var(--ndoc-active);
+  color: var(--ndoc-active-text);
+}
+
+.ndoc-font-size {
+  align-items: center;
+  display: inline-flex;
+}
+
+.ndoc-size-input {
+  background: transparent;
+  border: 1px solid var(--ndoc-border);
+  border-radius: 4px;
+  font-size: 13px;
+  height: 24px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+.ndoc-color-trigger {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ndoc-color-trigger i {
+  border-radius: 1px;
+  display: block;
+  height: 3px;
+  width: 16px;
+}
+
+/* ---------- Panels ---------- */
+
+.ndoc-dropdown { position: relative; }
+
+.ndoc-panel {
+  background: var(--ndoc-surface);
+  border: 1px solid var(--ndoc-border);
+  border-radius: 8px;
+  box-shadow: var(--ndoc-pop);
+  color: var(--ndoc-text);
+  inset-inline-start: 0;
+  max-height: 340px;
+  min-width: 170px;
+  overflow-y: auto;
+  padding: 4px;
+  position: absolute;
+  top: calc(100% + 4px);
+  z-index: 40;
+}
+
+.ndoc-item {
+  align-items: center;
+  background: none;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  font-size: 13px;
+  gap: 8px;
+  min-height: 30px;
+  padding: 3px 8px;
+  text-align: start;
+  width: 100%;
+}
+
+.ndoc-item:hover:not(:disabled) { background: var(--ndoc-hover); }
+.ndoc-item:disabled { cursor: default; opacity: 0.4; }
+
+.ndoc-item[data-active] {
+  background: var(--ndoc-active);
+  color: var(--ndoc-active-text);
+}
+
+.ndoc-item-icon {
+  display: inline-flex;
+  flex: none;
+  justify-content: center;
+  width: 16px;
+}
+
+.ndoc-panel:not(.ndoc-menu-panel) .ndoc-item-icon:empty { display: none; }
+
+.ndoc-item-label {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.ndoc-item-kbd {
+  color: var(--ndoc-muted);
+  font-family: inherit;
+  font-size: 12px;
+  margin-inline-start: 18px;
+}
+
+.ndoc-divider {
+  border: 0;
+  border-top: 1px solid var(--ndoc-border);
+  margin: 4px 0;
+}
+
+.ndoc-style-sample { font-weight: 600; }
+.ndoc-style-0 { font-weight: 400; }
+.ndoc-style-1 { font-size: 20px; }
+.ndoc-style-2 { font-size: 17px; }
+.ndoc-style-3 { font-size: 15px; }
+
+.ndoc-colors {
+  padding: 4px;
+  width: 196px;
+}
+
+.ndoc-colors-reset { margin-bottom: 4px; }
+
+.ndoc-color-grid {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.ndoc-swatch {
+  aspect-ratio: 1;
+  border: 1px solid rgba(127, 127, 127, 0.4);
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+}
+
+.ndoc-swatch:hover { transform: scale(1.12); }
+.ndoc-swatch[data-active] { outline: 2px solid var(--ndoc-accent); }
+
+.ndoc-color-custom {
+  align-items: center;
+  color: var(--ndoc-muted);
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.ndoc-color-custom input {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  height: 24px;
+  padding: 0;
+  width: 34px;
+}
+
+.ndoc-table-grid-wrap {
+  color: var(--ndoc-muted);
+  font-size: 12px;
+  padding: 4px;
+  text-align: center;
+}
+
+.ndoc-table-grid {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(8, 18px);
+  margin-bottom: 6px;
+}
+
+.ndoc-table-grid button {
+  background: var(--ndoc-canvas);
+  border: 1px solid var(--ndoc-border);
+  border-radius: 2px;
+  cursor: pointer;
+  height: 18px;
+  padding: 0;
+}
+
+.ndoc-table-grid button[data-active] {
+  background: var(--ndoc-active);
+  border-color: var(--ndoc-accent);
+}
+
+/* ---------- Layout ---------- */
+
+.ndoc-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.ndoc-outline {
+  background: var(--ndoc-bg);
+  border-inline-end: 1px solid var(--ndoc-border);
+  flex: none;
+  overflow-y: auto;
+  padding: 10px;
+  width: 230px;
+}
+
+.ndoc-outline header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.ndoc-outline h2 {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ndoc-outline p {
+  color: var(--ndoc-muted);
+  font-size: 13px;
+}
+
+.ndoc-outline ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ndoc-outline li button {
+  background: none;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  font-size: 13px;
+  overflow: hidden;
+  padding: 4px 6px;
+  text-align: start;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.ndoc-outline li button:hover { background: var(--ndoc-hover); }
+.ndoc-outline li button[data-level="1"] { font-weight: 600; }
+
+.ndoc-canvas {
+  background: var(--ndoc-canvas);
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  padding: 20px;
+  position: relative;
+}
+
+.ndoc-page {
+  background: var(--ndoc-page-bg);
+  box-shadow: var(--ndoc-shadow);
+  box-sizing: border-box;
+  margin-inline: auto;
+  min-height: var(--ndoc-page-h);
+  padding: var(--ndoc-mt) var(--ndoc-mx) var(--ndoc-mb);
+  width: var(--ndoc-page-w);
+}
+
+.ndoc-page:not([data-paged]) {
+  min-height: 100%;
+}
+
+.ndoc-prose {
+  box-sizing: border-box;
+  outline: none;
+}
+
+.ndoc-page .ndoc-prose {
+  min-height: calc(var(--ndoc-page-h) - var(--ndoc-mt) - var(--ndoc-mb));
+}
+
+.ndoc-page-gap {
+  margin-inline: calc(var(--ndoc-mx) * -1);
+  position: relative;
+  user-select: none;
+}
+
+.ndoc-page-gap-sheet {
+  position: relative;
+}
+
+.ndoc-page-gap-band {
+  background: var(--ndoc-canvas);
+  box-shadow: inset 0 4px 3px -3px rgba(20, 24, 31, 0.18),
+    inset 0 -4px 3px -3px rgba(20, 24, 31, 0.18);
+  margin-inline: -3px;
+}
+
+.ndoc-page-number {
+  bottom: 28px;
+  color: var(--ndoc-muted);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  inset-inline-end: var(--ndoc-mx);
+  position: absolute;
+}
+
+.ndoc-status {
+  align-items: center;
+  background: var(--ndoc-bg);
+  border-top: 1px solid var(--ndoc-border);
+  color: var(--ndoc-muted);
+  display: flex;
+  flex: none;
+  font-size: 12px;
+  gap: 16px;
+  justify-content: flex-end;
+  padding: 3px 14px;
+}
+
+.ndoc-status button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+.ndoc-status button:hover {
+  color: var(--ndoc-text);
+  text-decoration: underline;
+}
+
+/* ---------- Find bar ---------- */
+
+.ndoc-find {
+  background: var(--ndoc-surface);
+  border: 1px solid var(--ndoc-border);
+  border-radius: 8px;
+  box-shadow: var(--ndoc-pop);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  inset-inline-end: 24px;
+  margin-bottom: -100%;
+  margin-inline-start: auto;
+  padding: 6px;
+  position: sticky;
+  top: 0;
+  width: 360px;
+  z-index: 30;
+}
+
+.ndoc-find-row {
+  align-items: center;
+  display: flex;
+  gap: 2px;
+}
+
+.ndoc-find-field {
+  flex: 1;
+  min-width: 0;
+}
+
+.ndoc-find-count {
+  color: var(--ndoc-muted);
+  flex: none;
+  font-size: 12px;
+  padding-inline: 5px;
+}
+
+.ndoc-find-toggle {
+  align-self: flex-start;
+}
+
+.ndoc-match {
+  background: #ffe58a;
+  border-radius: 2px;
+  color: #111;
+}
+
+.ndoc-match-current {
+  background: #ffb02e;
+}
+
+/* ---------- Modals ---------- */
+
+.ndoc-modal {
+  max-width: 440px;
+  width: 100%;
+}
+
+.ndoc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ndoc-error {
+  color: #d62c2c;
+  font-size: 13px;
+}
+
+.ndoc-shortcuts {
+  margin: 0;
+}
+
+.ndoc-shortcuts div {
+  border-bottom: 1px solid var(--ndoc-border);
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.ndoc-shortcuts dd {
+  color: var(--ndoc-muted);
+  margin: 0;
+}
+
+/* ---------- Floating menus ---------- */
+
+.ndoc-bubble {
+  background: var(--ndoc-surface);
+  border: 1px solid var(--ndoc-border);
+  border-radius: 8px;
+  box-shadow: var(--ndoc-pop);
+  color: var(--ndoc-text);
+  display: flex;
+  gap: 1px;
+  padding: 3px;
+  z-index: 35;
+}
+
+.ndoc-slash {
+  max-height: 330px;
+  min-width: 240px;
+  position: fixed;
+  right: auto;
+  top: auto;
+  z-index: 50;
+}
+
+.ndoc-slash-item {
+  background: none;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 9px;
+  text-align: start;
+  width: 100%;
+}
+
+.ndoc-slash-item[data-active] { background: var(--ndoc-hover); }
+
+.ndoc-slash-item strong {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ndoc-slash-item span {
+  color: var(--ndoc-muted);
+  font-size: 12px;
+}
+
+/* ---------- Editing surface ---------- */
+
+.ndoc-prose ::selection { background: var(--ndoc-sel); }
+
+.ndoc-prose .is-editor-empty:first-child::before {
+  color: var(--ndoc-muted);
+  content: attr(data-placeholder);
+  float: inline-start;
+  height: 0;
+  pointer-events: none;
+}
+
+.ndoc-prose .tableWrapper {
+  overflow-x: auto;
+}
+
+.ndoc-prose .selectedCell::after {
+  background: var(--ndoc-sel);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+}
+
+.ndoc-prose .column-resize-handle {
+  background: var(--ndoc-accent);
+  bottom: -2px;
+  pointer-events: none;
+  position: absolute;
+  right: -2px;
+  top: 0;
+  width: 3px;
+  z-index: 3;
+}
+
+.ndoc-prose.resize-cursor { cursor: col-resize; }
+
+.ndoc-prose .ProseMirror-selectednode {
+  outline: 2px solid var(--ndoc-accent);
+}
+
+.ndoc-prose [data-resize-container] {
+  margin: 0.75em 0;
+  max-width: 100%;
+}
+
+.ndoc-prose [data-resize-wrapper] {
+  max-width: 100%;
+}
+
+.ndoc-prose [data-resize-handle] {
+  background: var(--ndoc-accent);
+  border: 1px solid #fff;
+  border-radius: 2px;
+  height: 11px;
+  opacity: 0;
+  width: 11px;
+  z-index: 2;
+}
+
+.ndoc-prose [data-resize-container]:hover [data-resize-handle],
+.ndoc-prose [data-resize-state="true"] [data-resize-handle] {
+  opacity: 1;
+}
+
+.ndoc-prose .ndoc-page-break {
+  align-items: center;
+  border-top: 1px dashed var(--ndoc-muted);
+  display: flex;
+  height: 14px;
+  margin: 8px 0 0;
+}
+
+.ndoc-prose .ndoc-page-break::after {
+  background: var(--ndoc-page-bg);
+  color: var(--ndoc-muted);
+  content: "Page break";
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  margin-inline: auto;
+  padding-inline: 8px;
+  transform: translateY(-8px);
+}
+
+.ndoc-prose .ProseMirror-gapcursor::after {
+  border-top-color: var(--ndoc-text);
+}
+
+/* ---------- Compact editor (text blocks) ---------- */
+
+.ndoc-compact {
+  --ndoc-page-bg: transparent;
+  background: var(--ndoc-bg);
+  color: var(--ndoc-text);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+}
+
+.ndoc-compact .ndoc-toolbar {
+  border-top: 0;
+  position: sticky;
+  top: 0;
+}
+
+.ndoc-compact .ndoc-prose {
+  max-height: 560px;
+  min-height: 220px;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+@media (max-width: 900px) {
+  .ndoc-outline { display: none; }
+  .ndoc-canvas { padding: 8px; }
+  .ndoc-find { width: 300px; }
+}
